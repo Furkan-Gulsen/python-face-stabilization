@@ -6,10 +6,6 @@ import pandas as pd
 import dlib
 import cv2
 
-faceLandmarks = "shape_predictor_68_face_landmarks.dat"
-detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor(faceLandmarks)
-
 # Returns the x, y coordinates of 68 points taken on the
 # face as a 2-tuple-shaped list.
 def shapePoints(shape):
@@ -18,9 +14,32 @@ def shapePoints(shape):
         coords[i] = (shape.part(i).x, shape.part(i).y)
     return coords
 
+def drawEye(thresh, mid, frame, right=False):
+    cnts, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    try:
+        cnt = max(cnts, key=cv2.contourArea)
+        M = cv2.moments(cnt)
+        cx = int(M['m10']/M['m00'])
+        cy = int(M['m01']/M['m00'])
+        if right:
+            cx += mid
+        # cv2.circle(image, center_coordinates, radius, color, thickness)
+        cv2.circle(frame, (cx, cy), 4, (0, 0, 255), 2)
+    except:
+        pass
 
-LEFT_EYE_POINTS = [36, 37, 38, 39, 40, 41]
-LEFT_RIGHT_POINTS = [42, 43, 44, 45, 46, 47]
+def eye_on_mask(mask, side):
+    points = [shape[i] for i in side]
+    points = np.array(points, dtype=np.int32)
+    mask = cv2.fillConvexPoly(mask, points, 255)
+    return mask
+
+left = [36, 37, 38, 39, 40, 41]
+right = [42, 43, 44, 45, 46, 47]
+
+faceLandmarks = "shape_predictor_68_face_landmarks.dat"
+detector = dlib.get_frontal_face_detector()
+predictor = dlib.shape_predictor(faceLandmarks)
 
 cap = cv2.VideoCapture(0)
 
@@ -30,13 +49,14 @@ while True:
         break
 
     grayFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    rects = detector(grayFrame, 0)
-    for (i, rect) in enumerate(rects):
+    rects = detector(grayFrame, 1)
+    for rect in rects:
         shape = predictor(grayFrame, rect)
-        points = shapePoints(shape)
-        for (x, y) in points:
-            cv2.circle(frame, (x, y), 2, (0, 0, 255), -1)
-
+        shape = shapePoints(shape)
+        mask = np.zeros(frame.shape[:2], dtype=np.uint8)
+        mask = eye_on_mask(mask, left)
+        mask = eye_on_mask(mask, right)
+        mid = (shape[42][0] + shape[39][0]) // 2
 
 
     cv2.imshow("Frame", frame)
