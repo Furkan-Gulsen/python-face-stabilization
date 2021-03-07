@@ -22,10 +22,12 @@ def createMask(cap):
 	capWidth = int(cap.get(3))
 	capHeight = int(cap.get(4))
 	mask = np.zeros([capHeight,capWidth], dtype=np.uint8)
+	print("Mask Shape: ", np.array(mask).shape)
 	return mask
 
 def stabilization(cx, cy, frame):
-	x, y = frame.shape[:2]
+	x = 1000
+	y = 450
 	return x-cx, y-cy
 
 detector = dlib.get_frontal_face_detector()
