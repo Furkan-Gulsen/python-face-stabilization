@@ -14,20 +14,6 @@ def shapePoints(shape):
         coords[i] = (shape.part(i).x, shape.part(i).y)
     return coords
 
-def drawEye(thresh, mid, frame, right=False):
-    cnts, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-    try:
-        cnt = max(cnts, key=cv2.contourArea)
-        M = cv2.moments(cnt)
-        cx = int(M['m10']/M['m00'])
-        cy = int(M['m01']/M['m00'])
-        if right:
-            cx += mid
-        # cv2.circle(image, center_coordinates, radius, color, thickness)
-        cv2.circle(frame, (cx, cy), 4, (0, 0, 255), 2)
-    except:
-        pass
-
 def eye_on_mask(mask, side):
     points = [shape[i] for i in side]
     points = np.array(points, dtype=np.int32)
