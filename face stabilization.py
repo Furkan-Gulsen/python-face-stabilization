@@ -56,7 +56,7 @@ while True:
 
 	back[y:y+480, x:x+640] = frame[0:480, 0:640]
 	# cv2.rectangle(back, (405, 245), (405 + 640, 245 + 480), color, 2)
-	cv2.imshow('back', frame)
+	cv2.imshow('back', back)
 	back[y:y+480, x:x+640] = back_copy[y:y+480, x:x+640]
 
 
