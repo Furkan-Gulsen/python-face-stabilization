@@ -19,7 +19,17 @@ def rectPoints(rect):
 def stabilization(cx, cy, frame):
 	x = 650
 	y = 450
-	return x-cx, y-cy
+	resX = x - cx
+	resY = y - cy
+	if cx > 470:
+		resX = 180
+	elif cx < 195:
+		resX = 450
+	if cy > 325:
+		resY = 120
+	elif cy < 140:
+		resY = 300
+	return resX, resY
 
 def prepareBackground(cap):
 	# copying frame from the camera to create the background
@@ -60,8 +70,8 @@ while True:
 
 	background[y:y+480, x:x+720] = frame[0:480, 0:720]
 	cv2.rectangle(background, (450, 300), (900, 600), color, 2)
-	cv2.imshow('Bacground Process', background)
-	# cv2.imshow('Face stabilization with DLIB', background[300:600,450:900])
+	# cv2.imshow('Bacground Process', background)
+	cv2.imshow('Face stabilization with DLIB', background[300:600,450:900])
 	background[y:y+480, x:x+720] = backgroundCopy[y:y+480, x:x+720]
 
 	if cv2.waitKey(1) & 0xFF == ord('q'):

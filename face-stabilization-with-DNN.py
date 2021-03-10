@@ -19,7 +19,17 @@ def rectPoints(rect):
 def stabilization(cx, cy, frame):
 	x = 650
 	y = 450
-	return x-cx, y-cy
+	resX = x - cx
+	resY = y - cy
+	if cx > 470:
+		resX = 180
+	elif cx < 195:
+		resX = 450
+	if cy > 325:
+		resY = 120
+	elif cy < 140:
+		resY = 300
+	return resX, resY
 
 def detectFacesWithDNN(frame):
     size = (300,300)
