@@ -46,7 +46,7 @@ def detectFacesWithDNN(frame):
 		if confidence > 0.5:
 			box = dnnFaces[0, 0, i, 3:7] * np.array([width, height, width, height])
 			(x, y, x1, y1) = box.astype("int")
-			# cv2.rectangle(frame, (x, y), (x1, y1), (193, 69, 42), 2)
+			cv2.rectangle(frame, (x, y), (x1, y1), (193, 69, 42), 2)
 	return frame, x, y, x1, y1
 
 def prepareBackground(cap):
@@ -66,7 +66,7 @@ modelFile = "models/res10_300x300_ssd_iter_140000.caffemodel"
 configFile = "models/deploy.prototxt"
 net = cv2.dnn.readNetFromCaffe(configFile, modelFile)
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("videos/video1.mp4")
 background, backgroundCopy = prepareBackground(cap)
 
 while True:
@@ -83,14 +83,13 @@ while True:
 		color = (255,255,255)
 		# cv2.circle(frame, (cx, cy), 4, color, 2)
 		x,y = stabilization(cx,cy,frame)
-		# cv2.moveWindow('Face Stabilization with DNN',int(x),int(y))
 	except:
 		print("There is no face")
 
 
 	background[y:y+480, x:x+720] = frame[0:480, 0:720]
 	cv2.rectangle(background, (450, 300), (900, 600), color, 2)
-	# cv2.imshow('Bacground Process', background)
+	cv2.imshow('Bacground Process', background)
 	cv2.imshow('Face stabilization with DLIB', background[300:600,450:900])
 	background[y:y+480, x:x+720] = backgroundCopy[y:y+480, x:x+720]
 
