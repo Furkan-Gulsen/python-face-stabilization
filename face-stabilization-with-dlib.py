@@ -58,11 +58,11 @@ while True:
 		cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
 		x,y = stabilization(cx,cy,frame)
 
-	background[y:y+480, x:x+640] = frame[0:480, 0:640]
-	cv2.rectangle(background, (450, 300), (450 + 450, 300 + 300), color, 2)
+	background[y:y+480, x:x+720] = frame[0:480, 0:720]
+	cv2.rectangle(background, (450, 300), (900, 600), color, 2)
 	cv2.imshow('Bacground Process', background)
 	# cv2.imshow('Face stabilization with DLIB', background[300:600,450:900])
-	background[y:y+480, x:x+640] = backgroundCopy[y:y+480, x:x+640]
+	background[y:y+480, x:x+720] = backgroundCopy[y:y+480, x:x+720]
 
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
