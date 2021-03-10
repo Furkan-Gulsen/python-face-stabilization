@@ -33,7 +33,7 @@ def contouring(thresh, mid, img, right=False):
         pass
 
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor('shape_predictor_68_face_landmarks.dat')
+predictor = dlib.shape_predictor('models/shape_predictor_68_face_landmarks.dat')
 
 left = [36, 37, 38, 39, 40, 41]
 right = [42, 43, 44, 45, 46, 47]

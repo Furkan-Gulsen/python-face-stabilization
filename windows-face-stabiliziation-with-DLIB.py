@@ -23,11 +23,9 @@ def stabilization(cx, cy, frame):
 	return x-cx, y-cy
 
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor('shape_predictor_68_face_landmarks.dat')
-
+predictor = dlib.shape_predictor('models/shape_predictor_68_face_landmarks.dat')
 
 cap = cv2.VideoCapture(0)
-
 
 while True:
 	ret, frame = cap.read()
