@@ -9,7 +9,8 @@ First, the face is detected with the face detection algorithms in Python. Then, 
 <img src="https://github.com/Furkan-Gulsen/python-face-stabilization/blob/main/outputs/video1-background.gif"/>
 <img src="https://github.com/Furkan-Gulsen/python-face-stabilization/blob/main/outputs/video1-output.gif"/>
 
-Don't forget to star this project to increase my motivation. In addition, the project is now in its simplest form. You can reach me at <m.furkangulsen@gmail.com> e-mail address to support the project.
-
 </div>
 
+---
+
+Don't forget to star this project to increase my motivation. In addition, the project is now in its simplest form. You can reach me at <m.furkangulsen@gmail.com> e-mail address to support the project.
