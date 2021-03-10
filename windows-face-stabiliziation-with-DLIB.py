@@ -2,7 +2,7 @@
 import cv2
 import dlib
 import numpy as np
-from PIL import Image
+from PIL import Image 
 
 def shapePoints(shape, dtype="int"):
 	coords = np.zeros((68, 2), dtype=dtype)

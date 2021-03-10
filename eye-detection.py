@@ -1,7 +1,7 @@
 
 import cv2
 import dlib
-import numpy as np
+import numpy as np 
 
 def shape_to_np(shape, dtype="int"):
 	# initialize the list of (x, y)-coordinates

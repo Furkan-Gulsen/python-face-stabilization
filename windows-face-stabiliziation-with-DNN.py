@@ -1,7 +1,7 @@
 
 import cv2
 import dlib
-import numpy as np
+import numpy as np 
 
 def shapePoints(shape, dtype="int"):
 	coords = np.zeros((68, 2), dtype=dtype)
