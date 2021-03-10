@@ -17,23 +17,32 @@ def rectPoints(rect):
     return (x, y, w, h)
 
 def stabilization(cx, cy, frame):
-	x = 725
-	y = 485
+	x = 650
+	y = 450
 	return x-cx, y-cy
+
+def prepareBackground(cap):
+	# copying frame from the camera to create the background
+	ret, frame = cap.read()
+	background = frame.copy()
+	background = cv2.resize(background, (1300,900))
+	background = cv2.GaussianBlur(background, (101,101), 0)
+	# copying the background to achieve refresh
+	backgroundCopy = background.copy()
+	backgroundCopy = cv2.GaussianBlur(backgroundCopy, (101,101), 0)
+	return background, backgroundCopy
+
 
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor('shape_predictor_68_face_landmarks.dat')
+
 cap = cv2.VideoCapture(0)
-ret, frame = cap.read()
-back = frame.copy()
-back = cv2.resize(back, (1450,970))
-back = cv2.GaussianBlur(back, (99,99), 0)
-back_copy = back.copy()
-back_copy = cv2.GaussianBlur(back_copy, (99,99), 0)
+background, backgroundCopy = prepareBackground(cap)
 
 while True:
 	ret, frame = cap.read()
-	copy_frame = frame.copy()
+	frame = cv2.resize(frame, (720,480))
+
 	if not ret:
 		break
 	rects = detector(frame, 0)
@@ -49,10 +58,11 @@ while True:
 		cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
 		x,y = stabilization(cx,cy,frame)
 
-	back[y:y+480, x:x+640] = frame[0:480, 0:640]
-	cv2.rectangle(back, (405, 245), (405 + 640, 245 + 480), color, 2)
-	cv2.imshow('back', back)
-	back[y:y+480, x:x+640] = back_copy[y:y+480, x:x+640]
+	background[y:y+480, x:x+640] = frame[0:480, 0:640]
+	cv2.rectangle(background, (450, 300), (450 + 450, 300 + 300), color, 2)
+	cv2.imshow('Bacground Process', background)
+	# cv2.imshow('Face stabilization with DLIB', background[300:600,450:900])
+	background[y:y+480, x:x+640] = backgroundCopy[y:y+480, x:x+640]
 
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
